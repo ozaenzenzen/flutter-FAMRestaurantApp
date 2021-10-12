@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_print
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fam_ui7/domain/detail_restaurant_response.dart';
@@ -41,8 +39,6 @@ class RestaurantRepository {
           },
         ),
       );
-
-      // print(_response.data);
 
       ListRestaurantResponse _listRestaurantResponse =
           ListRestaurantResponse.fromJson(_response.data);
@@ -149,7 +145,6 @@ class RestaurantRepository {
     );
     
     SearchRestaurantResponse _searchRestaurantResponse = SearchRestaurantResponse.fromJson(_response.data);
-    // return _searchRestaurantResponse.error;
     return _searchRestaurantResponse;
   }
 }

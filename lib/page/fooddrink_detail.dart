@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fam_ui7/domain/detail_restaurant_response.dart';
-import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 

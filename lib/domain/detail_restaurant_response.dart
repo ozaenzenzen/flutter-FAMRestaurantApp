@@ -5,9 +5,9 @@ class DetailRestaurantResponse {
     this.restaurant,
   });
 
-  bool ?error;
-  String ?message;
-  Restaurant ?restaurant;
+  bool? error;
+  String? message;
+  Restaurant? restaurant;
 
   factory DetailRestaurantResponse.fromJson(Map<String, dynamic> json) =>
       DetailRestaurantResponse(
@@ -73,7 +73,8 @@ class Restaurant {
         "categories": List<dynamic>.from(categories!.map((x) => x.toJson())),
         "menus": menus!.toJson(),
         "rating": rating,
-        "customerReviews": List<dynamic>.from(customerReviews!.map((x) => x.toJson())),
+        "customerReviews":
+            List<dynamic>.from(customerReviews!.map((x) => x.toJson())),
       };
 }
 

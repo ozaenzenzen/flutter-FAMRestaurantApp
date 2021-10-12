@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_fam_ui7/page/restaurant_detail.dart';
 import 'package:flutter_fam_ui7/urls/urls.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
-import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
 import 'package:get/get.dart';
 
 class RestaurantItem extends StatefulWidget {
@@ -13,17 +11,15 @@ class RestaurantItem extends StatefulWidget {
   final String? pictureId;
   final String? city;
   final double? rating;
-  // final Menus? menus;
 
   // ignore: use_key_in_widget_constructors
-  const RestaurantItem({
+  RestaurantItem({
     this.id,
     this.name,
     this.description,
     this.pictureId,
     this.city,
     this.rating,
-    // this.menus,
   });
 
   @override
@@ -46,7 +42,6 @@ class _RestaurantItemState extends State<RestaurantItem> {
             'pictureId': widget.pictureId,
             'city': widget.city,
             'rating': widget.rating,
-            // 'menus': widget.menus,
           },
         );
       },
@@ -79,8 +74,7 @@ class _RestaurantItemState extends State<RestaurantItem> {
                 child: Image(
                   width: screenUtil.setWidth(100),
                   image: NetworkImage(
-                      Urls.IMAGE_SMALL + "/${widget.pictureId.toString()}"
-                      ),
+                      Urls.IMAGE_SMALL + "/${widget.pictureId.toString()}"),
                 ),
               ),
             ),

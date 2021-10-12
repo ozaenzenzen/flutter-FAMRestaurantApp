@@ -4,9 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fam_ui7/application/list_restaurant/bloc/list_restaurant_bloc.dart';
-// import 'package:flutter_fam_ui7/application/list_restaurant/cubit/list_restaurant_cubit.dart';
 import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
-import 'package:flutter_fam_ui7/utils/datajson.dart';
 import 'package:flutter_fam_ui7/widget/list_restaurant_item.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -27,8 +25,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
-    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
+    BlocProvider.of<ListRestaurantBloc>(context)
+        .add(ListRestaurantShowListEvent());
     super.initState();
   }
 
@@ -50,19 +48,13 @@ class _HomePageState extends State<HomePage> {
                   controller: searchController,
                   prefixIcon: Container(),
                   onSubmitted: (String search) {
-                    // FocusScope.of(context).unfocus();
-                    // context.read<ListRestaurantBloc>().add(ListRestaurantSearchListEvent(search));
-
-                    //
-
                     searchController.text = search;
-
-                    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantSearchListEvent(search));
-                    // BlocProvider.of<ListRestaurantCubit>(context).searchListDataRestaurant(search);
+                    BlocProvider.of<ListRestaurantBloc>(context)
+                        .add(ListRestaurantSearchListEvent(search));
                   },
                   onSuffixTap: () {
-                    // BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
-                    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
+                    BlocProvider.of<ListRestaurantBloc>(context)
+                        .add(ListRestaurantShowListEvent());
                     searchController.clear();
                   },
                 ),
@@ -74,20 +66,14 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  // BlocProvider.of<ListRestaurantCubit>(context).searchListDataRestaurant(searchController.text);
-                  BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantSearchListEvent(searchController.text));
+                  BlocProvider.of<ListRestaurantBloc>(context).add(
+                      ListRestaurantSearchListEvent(searchController.text));
                 },
               ),
             ),
           ];
         },
-        // body: BlocProvider(
-        //   create: (context) => ListRestaurantBloc()..add(ListRestaurantShowListEvent()),
-        // body: BlocProvider<ListRestaurantCubit>(
-        //   create: (context) => ListRestaurantCubit()..getListDataRestaurant(),
         body: BlocConsumer<ListRestaurantBloc, ListRestaurantState>(
-        // body: BlocConsumer<ListRestaurantCubit, ListRestaurantState>(
-          // child: BlocConsumer<ListRestaurantBloc, ListRestaurantState>(
           listener: (context, state) {
             if (state is ListRestaurantLoading) {
               SizedBox(
@@ -156,20 +142,6 @@ class _HomePageState extends State<HomePage> {
             print("State rightnow: $state");
 
             if (state is ListRestaurantGetSuccess) {
-              // return FutureBuilder(
-              //   future: DataJSON().getData(),
-              //   builder: (context, AsyncSnapshot<ListRestaurantResponse> snapshot) {
-              //     if (snapshot.data == null) {
-              //       return SizedBox(
-              //         height: screenUtil.screenHeight,
-              //         child: SizedBox(
-              //           height: screenUtil.setHeight(40),
-              //           width: screenUtil.setWidth(40),
-              //           child: const CircularProgressIndicator(),
-              //         ),
-              //       );
-              //     }
-
               return Container(
                 margin: EdgeInsets.symmetric(
                   horizontal: screenUtil.setWidth(10),
@@ -191,16 +163,6 @@ class _HomePageState extends State<HomePage> {
                           listRestaurantResponse.restaurants![index].pictureId,
                       city: listRestaurantResponse.restaurants![index].city,
                       rating: listRestaurantResponse.restaurants![index].rating,
-
-                      //
-
-                      // id: snapshot.data!.restaurants![index].id,
-                      // name: snapshot.data!.restaurants![index].name,
-                      // description: snapshot.data!.restaurants![index].description,
-                      // pictureId: snapshot.data!.restaurants![index].pictureId,
-                      // city: snapshot.data!.restaurants![index].city,
-                      // rating: snapshot.data!.restaurants![index].rating,
-                      // menus: snapshot.data!.restaurants![index].menus,
                     );
                   },
                 ),
@@ -244,7 +206,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }
-            // context.read<ListRestaurantBloc>().add(ListRestaurantShowListEvent());
             return SizedBox(
               height: screenUtil.screenHeight,
               child: Container(
@@ -254,9 +215,6 @@ class _HomePageState extends State<HomePage> {
                 child: const CircularProgressIndicator(),
               ),
             );
-
-            //   },
-            // );
           },
         ),
       ),
