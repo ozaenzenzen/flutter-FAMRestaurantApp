@@ -137,11 +137,80 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                name.toString(),
-                                style: CupertinoTheme.of(context)
-                                    .textTheme
-                                    .navLargeTitleTextStyle,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      name.toString(),
+                                      style: CupertinoTheme.of(context)
+                                          .textTheme
+                                          .navLargeTitleTextStyle,
+                                    ),
+                                  ),
+                                  CupertinoButton(
+                                    child: const Text("Review"),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (contextDialogs) {
+                                          // return AlertDialog(
+                                          return CupertinoAlertDialog(
+                                            title: const Text("Review"),
+                                            // content: Expanded(
+                                            content: SizedBox(
+                                              height: screenUtil.setHeight(200),
+                                              width: screenUtil.setWidth(200),
+                                              child: Material(
+                                                color: Colors.transparent,
+                                                child: ListView.builder(
+                                                  shrinkWrap: true,
+                                                  itemCount:
+                                                      customerReviews!.length,
+                                                  itemBuilder:
+                                                      (context, index) {
+                                                    return ListTile(
+                                                      title: Text(
+                                                          "Review ${index + 1}"),
+                                                      subtitle: Column(
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Text(customerReviews![
+                                                                  index]
+                                                              .name
+                                                              .toString()),
+                                                          Text(customerReviews![
+                                                                  index]
+                                                              .date
+                                                              .toString()),
+                                                          Text(customerReviews![
+                                                                  index]
+                                                              .review
+                                                              .toString()),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                            actions: [
+                                              CupertinoButton(
+                                                child: const Text("OK"),
+                                                onPressed: () {
+                                                  Get.back();
+                                                },
+                                              )
+                                            ],
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
                               SizedBox(
                                 height: screenUtil.setHeight(5),
@@ -155,11 +224,34 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                   SizedBox(
                                     width: screenUtil.setWidth(5),
                                   ),
+                                  Expanded(
+                                    child: Text(
+                                      "$address, $city",
+                                      style: CupertinoTheme.of(context)
+                                          .textTheme
+                                          .actionTextStyle,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: screenUtil.setHeight(5),
+                              ),
+                              Row(
+                                children: [
+                                  Icon(
+                                    CupertinoIcons.star_fill,
+                                    color: CupertinoColors.systemYellow,
+                                    size: screenUtil.setSp(18),
+                                  ),
+                                  SizedBox(
+                                    width: screenUtil.setWidth(5),
+                                  ),
                                   Text(
-                                    "$address, $city",
+                                    "$rating",
                                     style: CupertinoTheme.of(context)
                                         .textTheme
-                                        .actionTextStyle,
+                                        .navTitleTextStyle,
                                   ),
                                 ],
                               ),
