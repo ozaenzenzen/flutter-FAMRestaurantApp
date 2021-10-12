@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_fam_ui7/domain/detail_restaurant_response.dart';
 import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -19,10 +20,13 @@ class _FoodDrinkPageState extends State<FoodDrinkPage> {
   String? id;
   String? name;
   String? description;
-  String? pictureId;
   String? city;
-  double? rating;
+  String? address;
+  String? pictureId;
+  List<Category>? categories;
   Menus? menus;
+  double? rating;
+  List<CustomerReview>? customerReviews;
 
   @override
   void initState() {
@@ -30,10 +34,13 @@ class _FoodDrinkPageState extends State<FoodDrinkPage> {
     id = data['id'];
     name = data['name'];
     description = data['description'];
-    pictureId = data['pictureId'];
     city = data['city'];
-    rating = data['rating'];
+    address = data['address'];
+    pictureId = data['pictureId'];
+    categories = data['categories'];
     menus = data['menus'];
+    rating = data['rating'];
+    customerReviews = data['customerReviews'];
     super.initState();
   }
 
