@@ -105,8 +105,6 @@ class _HomePageState extends State<HomePage> {
               );
             } else if (state is ListRestaurantGetSuccess) {
               listRestaurantResponse = state.listRestaurantResponse;
-            } else if (state is ListRestaurantSuccess) {
-              //
             } else if (state is ListRestaurantSearchSuccess) {
               Container(
                 margin: EdgeInsets.symmetric(

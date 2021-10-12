@@ -55,10 +55,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
         middle: const Text("Restaurant App Details"),
       ),
       child: BlocProvider(
-        create: (context) => DetailRestaurantBloc()
-          ..add(
-            DetailRestaurantShowDetailsEvent(id.toString()),
-          ),
+        create: (context) => DetailRestaurantBloc()..add(DetailRestaurantShowDetailsEvent(id.toString())),
         child: BlocConsumer<DetailRestaurantBloc, DetailRestaurantState>(
           listener: (context, state) {
             if (state is DetailRestaurantLoading) {
@@ -100,9 +97,8 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
               categories = detailRestaurantResponse.restaurant!.categories;
               menus = detailRestaurantResponse.restaurant!.menus;
               rating = detailRestaurantResponse.restaurant!.rating;
-              customerReviews = detailRestaurantResponse.restaurant!.customerReviews;
-            } else if (state is DetailRestaurantSuccess) {
-              //
+              customerReviews =
+                  detailRestaurantResponse.restaurant!.customerReviews;
             }
           },
           builder: (context, state) {
@@ -207,16 +203,16 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                       () => const FoodDrinkPage(),
                                       arguments: {
                                         'type': 'foods',
-                                        'id' : id,
-                                        'name' : name,
-                                        'description' : description,
-                                        'city' : city,
-                                        'address' : address,
-                                        'pictureId' : pictureId,
-                                        'categories' : categories,
-                                        'menus' : menus,
-                                        'rating' : rating,
-                                        'customerReviews' : customerReviews,
+                                        'id': id,
+                                        'name': name,
+                                        'description': description,
+                                        'city': city,
+                                        'address': address,
+                                        'pictureId': pictureId,
+                                        'categories': categories,
+                                        'menus': menus,
+                                        'rating': rating,
+                                        'customerReviews': customerReviews,
                                       },
                                     );
                                   },
@@ -282,16 +278,16 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                       () => const FoodDrinkPage(),
                                       arguments: {
                                         'type': 'drinks',
-                                        'id' : id,
-                                        'name' : name,
-                                        'description' : description,
-                                        'city' : city,
-                                        'address' : address,
-                                        'pictureId' : pictureId,
-                                        'categories' : categories,
-                                        'menus' : menus,
-                                        'rating' : rating,
-                                        'customerReviews' : customerReviews,
+                                        'id': id,
+                                        'name': name,
+                                        'description': description,
+                                        'city': city,
+                                        'address': address,
+                                        'pictureId': pictureId,
+                                        'categories': categories,
+                                        'menus': menus,
+                                        'rating': rating,
+                                        'customerReviews': customerReviews,
                                       },
                                     );
                                   },

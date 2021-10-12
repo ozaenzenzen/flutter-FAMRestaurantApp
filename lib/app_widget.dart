@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fam_ui7/application/detail_restaurant/bloc/detail_restaurant_bloc.dart';
 import 'package:flutter_fam_ui7/application/list_restaurant/bloc/list_restaurant_bloc.dart';
-import 'package:flutter_fam_ui7/application/list_restaurant/cubit/list_restaurant_cubit.dart';
 import 'package:flutter_fam_ui7/page/homepage.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';

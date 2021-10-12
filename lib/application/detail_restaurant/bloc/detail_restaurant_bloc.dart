@@ -18,23 +18,17 @@ class DetailRestaurantBloc
     if (event is DetailRestaurantShowDetailsEvent) {
       yield DetailRestaurantLoading();
       try {
-        // final _data = await restaurantRepository.getDataDetailRestaurant(event.id);
         final _data =
-            await restaurantRepository.getDataDetailRestaurant2(event.id).onError(
-                  (error, stackTrace) =>
-                      DetailRestaurantError(error.toString()),
-                );
+            await restaurantRepository.getDataDetailRestaurant(event.id);
 
-        yield DetailRestaurantGetSuccess(_data);
-
-        // _data.fold(
-        //   (l) async* {
-        //     yield DetailRestaurantError(l.toString());
-        //   },
-        //   (r) async* {
-        //     yield DetailRestaurantGetSuccess();
-        //   },
-        // );
+        yield* _data.fold(
+          (l) async* {
+            yield DetailRestaurantError(l.toString());
+          },
+          (r) async* {
+            yield DetailRestaurantGetSuccess(r);
+          },
+        );
       } catch (e) {
         yield DetailRestaurantError(e.toString());
       }
