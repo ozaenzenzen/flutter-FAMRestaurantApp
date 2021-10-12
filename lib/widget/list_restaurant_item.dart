@@ -13,7 +13,7 @@ class RestaurantItem extends StatefulWidget {
   final double? rating;
 
   // ignore: use_key_in_widget_constructors
-  RestaurantItem({
+  const RestaurantItem({
     this.id,
     this.name,
     this.description,
