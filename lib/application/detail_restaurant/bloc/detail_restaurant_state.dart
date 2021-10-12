@@ -7,8 +7,6 @@ class DetailRestaurantInitial extends DetailRestaurantState {}
 
 class DetailRestaurantLoading extends DetailRestaurantState {}
 
-class DetailRestaurantSuccess extends DetailRestaurantState {}
-
 class DetailRestaurantError extends DetailRestaurantState {
   final String errorMessage;
   DetailRestaurantError(this.errorMessage);

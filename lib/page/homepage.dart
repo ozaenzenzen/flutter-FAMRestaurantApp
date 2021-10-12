@@ -23,17 +23,11 @@ class _HomePageState extends State<HomePage> {
 
   TextEditingController searchController = TextEditingController();
 
-  @override
-  void initState() {
-    BlocProvider.of<ListRestaurantBloc>(context)
-        .add(ListRestaurantShowListEvent());
-    super.initState();
-  }
-
   String? tempSearch;
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
     return CupertinoPageScaffold(
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -105,40 +99,9 @@ class _HomePageState extends State<HomePage> {
               );
             } else if (state is ListRestaurantGetSuccess) {
               listRestaurantResponse = state.listRestaurantResponse;
-            } else if (state is ListRestaurantSearchSuccess) {
-              Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: screenUtil.setWidth(10),
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    top: screenUtil.setHeight(0),
-                  ),
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: state.searchRestaurantResponse.restaurants!.length,
-                  itemBuilder: (context, index) {
-                    return RestaurantItem(
-                      id: state.searchRestaurantResponse.restaurants![index].id,
-                      name: state
-                          .searchRestaurantResponse.restaurants![index].name,
-                      description: state.searchRestaurantResponse
-                          .restaurants![index].description,
-                      pictureId: state.searchRestaurantResponse
-                          .restaurants![index].pictureId,
-                      city: state
-                          .searchRestaurantResponse.restaurants![index].city,
-                      rating: state
-                          .searchRestaurantResponse.restaurants![index].rating,
-                    );
-                  },
-                ),
-              );
-            }
+            } 
           },
           builder: (context, state) {
-            print("State rightnow: $state");
-
             if (state is ListRestaurantGetSuccess) {
               return Container(
                 margin: EdgeInsets.symmetric(
@@ -163,15 +126,6 @@ class _HomePageState extends State<HomePage> {
                       rating: listRestaurantResponse.restaurants![index].rating,
                     );
                   },
-                ),
-              );
-            } else if (state is ListRestaurantError) {
-              return Container(
-                alignment: Alignment.center,
-                height: screenUtil.screenHeight,
-                child: Text(
-                  "Data error",
-                  style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
                 ),
               );
             } else if (state is ListRestaurantSearchSuccess) {

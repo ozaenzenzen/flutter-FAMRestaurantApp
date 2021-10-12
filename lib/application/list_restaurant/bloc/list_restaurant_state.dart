@@ -9,8 +9,6 @@ class ListRestaurantLoading2 extends ListRestaurantState {}
 
 class ListRestaurantLoading extends ListRestaurantState {}
 
-class ListRestaurantSuccess extends ListRestaurantState {}
-
 class ListRestaurantError extends ListRestaurantState {
   final String errorMessage;
   ListRestaurantError(this.errorMessage);
