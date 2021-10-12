@@ -50,18 +50,6 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
           ),
         ),
         middle: const Text("Restaurant App Details"),
-        trailing: Material(
-          color: Colors.transparent,
-          child: IconButton(
-            icon: const Icon(
-              Icons.add,
-              color: CupertinoColors.activeBlue,
-            ),
-            onPressed: () {
-              Get.back();
-            },
-          ),
-        ),
       ),
       child: CustomScrollView(
         slivers: [
@@ -131,6 +119,16 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                         style: CupertinoTheme.of(context).textTheme.textStyle,
                       ),
                     ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.symmetric(
+                    horizontal: screenUtil.setWidth(10),
+                    vertical: screenUtil.setWidth(10),
+                  ),
+                  child: Text(
+                    "Foods and Drinks",
+                    style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
                   ),
                 ),
                 Container(
