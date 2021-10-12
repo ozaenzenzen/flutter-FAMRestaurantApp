@@ -48,25 +48,6 @@ class _RestaurantItemState extends State<RestaurantItem> {
                 'menus': widget.menus,
               },
         );
-        // Navigator.push(
-        //   context,
-        //   CupertinoPageRoute(
-        //     settings: RouteSettings(
-        //       arguments: {
-        //         'id': widget.id,
-        //         'name': widget.name,
-        //         'description': widget.description,
-        //         'pictureId': widget.pictureId,
-        //         'city': widget.city,
-        //         'rating': widget.rating,
-        //         'menus': widget.menus,
-        //       },
-        //     ),
-        //     builder: (context) {
-        //       return RestaurantDetail();
-        //     },
-        //   ),
-        // );
       },
       child: Container(
         decoration: BoxDecoration(

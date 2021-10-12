@@ -61,9 +61,6 @@ class _FoodDrinkPageState extends State<FoodDrinkPage> {
             },
           ),
         ),
-        // body: Container(
-        //   color: CupertinoColors.systemTeal,
-        // ),
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             CupertinoSliverNavigationBar(

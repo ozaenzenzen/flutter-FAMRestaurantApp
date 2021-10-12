@@ -15,14 +15,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      // builder: () => const MaterialApp(
-      // builder: () => const CupertinoApp(
       builder: () => const GetMaterialApp(
-      // builder: () => const GetCupertinoApp(
         title: 'Restaurant App',
-        // theme: CupertinoThemeData(
-        //   primaryColor: CupertinoColors.systemOrange,
-        // ),
         home: HomePage(),
         debugShowCheckedModeBanner: false,
         defaultTransition: Transition.cupertino,

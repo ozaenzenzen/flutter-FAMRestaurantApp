@@ -34,7 +34,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
     city = data['city'];
     rating = data['rating'];
     menus = data['menus'];
-    // Menus menus2 = Menus.fromJson(menus);
+
     return CupertinoPageScaffold(
       navigationBar: CupertinoNavigationBar(
         leading: Material(
@@ -66,9 +66,6 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
       child: CustomScrollView(
         slivers: [
           SliverAppBar(
-            // title: Text(
-            //   name.toString(),
-            // ),
             centerTitle: true,
             leading: Container(),
             backgroundColor: Colors.transparent,
@@ -282,106 +279,11 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     ],
                   ),
                 ),
-                // Container(
-                //   color: Colors.red,
-                //   margin: EdgeInsets.symmetric(
-                //     horizontal: screenUtil.setWidth(10),
-                //     vertical: screenUtil.setWidth(10),
-                //   ),
-                //   child: Material(
-                //     child: ListView.builder(
-                //       padding: EdgeInsets.only(
-                //         top: screenUtil.setHeight(0),
-                //       ),
-                //       shrinkWrap: true,
-                //       itemCount: menus!.foods!.length,
-                //       itemBuilder: (context, index) {
-                //         return ListTile(
-                //           title: Text(menus!.foods![index].name.toString()),
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // ),
-                // Container(color: Colors.red, height: 150.0),
-                // Container(color: Colors.purple, height: 150.0),
-                // Container(color: Colors.green, height: 150.0),
               ],
             ),
           ),
-
-          // SliverFixedExtentList(
-          //   itemExtent: 150.0,
-          //   delegate: SliverChildListDelegate(
-          //     [
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: [
-          //           Text(
-          //             name.toString(),
-          //             style: CupertinoTheme.of(context)
-          //                 .textTheme
-          //                 .navLargeTitleTextStyle,
-          //           ),
-          //           Text(
-          //             city.toString(),
-          //             style: CupertinoTheme.of(context)
-          //                 .textTheme
-          //                 .navTitleTextStyle,
-          //           ),
-          //           Text(
-          //             description.toString(),
-          //             style: CupertinoTheme.of(context).textTheme.textStyle,
-          //           ),
-          //         ],
-          //       ),
-
-          //       // Container(color: Colors.red),
-          //       // Container(color: Colors.purple),
-          //       // Container(color: Colors.green),
-          //       // Container(color: Colors.orange),
-          //       // Container(color: Colors.yellow),
-          //       // Container(color: Colors.pink),
-          //     ],
-          //   ),
-          // ),
-
-          // CupertinoSliverNavigationBar(
-          // leading: Material(
-          //   child: IconButton(
-          //     icon: const Icon(CupertinoIcons.back),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //   ),
-          // ),
-          // middle: const Text('Kindacode.com'),
-          // trailing: Material(
-          //   child: IconButton(
-          //     icon: const Icon(Icons.add),
-          //     onPressed: () {
-          //       Navigator.pop(context);
-          //     },
-          //   ),
-          // ),
-          //   automaticallyImplyTitle: false,
-          //   // largeTitle: Text('Search'),
-
-          //   largeTitle: Column(
-          //     children: const [
-          //       Image(
-          //         image: NetworkImage(
-          //             "https://restaurant-api.dicoding.dev/images/medium/14"),
-          //         fit: BoxFit.cover,
-          //       ),
-          //     ],
-          //   ),
-          // ),
         ],
       ),
-      // child: Container(
-      //   color: CupertinoColors.systemTeal,
-      // ),
     );
   }
 }
