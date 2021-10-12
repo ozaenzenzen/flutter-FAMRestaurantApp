@@ -62,11 +62,11 @@ class Menus {
     this.drinks,
   });
 
-  List<Drink>? foods;
+  List<Food>? foods;
   List<Drink>? drinks;
 
   factory Menus.fromJson(Map<String, dynamic> json) => Menus(
-        foods: List<Drink>.from(json["foods"].map((x) => Drink.fromJson(x))),
+        foods: List<Food>.from(json["foods"].map((x) => Food.fromJson(x))),
         drinks: List<Drink>.from(json["drinks"].map((x) => Drink.fromJson(x))),
       );
 
@@ -84,6 +84,21 @@ class Drink {
   String? name;
 
   factory Drink.fromJson(Map<String, dynamic> json) => Drink(
+        name: json["name"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+      };
+}
+class Food {
+  Food({
+    this.name,
+  });
+
+  String? name;
+
+  factory Food.fromJson(Map<String, dynamic> json) => Food(
         name: json["name"],
       );
 
