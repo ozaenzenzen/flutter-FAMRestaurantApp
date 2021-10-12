@@ -3,8 +3,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:flutter_fam_ui7/application/list_restaurant/bloc/list_restaurant_bloc.dart';
-import 'package:flutter_fam_ui7/application/list_restaurant/cubit/list_restaurant_cubit.dart';
+import 'package:flutter_fam_ui7/application/list_restaurant/bloc/list_restaurant_bloc.dart';
+// import 'package:flutter_fam_ui7/application/list_restaurant/cubit/list_restaurant_cubit.dart';
 import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
 import 'package:flutter_fam_ui7/utils/datajson.dart';
 import 'package:flutter_fam_ui7/widget/list_restaurant_item.dart';
@@ -27,7 +27,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
+    // BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
+    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
     super.initState();
   }
 
@@ -56,13 +57,12 @@ class _HomePageState extends State<HomePage> {
 
                     searchController.text = search;
 
-                    // BlocProvider.of<ListRestaurantBloc>(context)..add(ListRestaurantSearchListEvent(search));
-                    BlocProvider.of<ListRestaurantCubit>(context)
-                        .searchListDataRestaurant(search);
+                    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantSearchListEvent(search));
+                    // BlocProvider.of<ListRestaurantCubit>(context).searchListDataRestaurant(search);
                   },
                   onSuffixTap: () {
-                    BlocProvider.of<ListRestaurantCubit>(context)
-                        .getListDataRestaurant();
+                    // BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
+                    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
                     searchController.clear();
                   },
                 ),
@@ -74,9 +74,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  BlocProvider.of<ListRestaurantCubit>(context)
-                      .searchListDataRestaurant(searchController.text);
-                  // BlocProvider.of<ListRestaurantCubit>(context).getListDataRestaurant();
+                  // BlocProvider.of<ListRestaurantCubit>(context).searchListDataRestaurant(searchController.text);
+                  BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantSearchListEvent(searchController.text));
                 },
               ),
             ),
@@ -86,7 +85,8 @@ class _HomePageState extends State<HomePage> {
         //   create: (context) => ListRestaurantBloc()..add(ListRestaurantShowListEvent()),
         // body: BlocProvider<ListRestaurantCubit>(
         //   create: (context) => ListRestaurantCubit()..getListDataRestaurant(),
-        body: BlocConsumer<ListRestaurantCubit, ListRestaurantState>(
+        body: BlocConsumer<ListRestaurantBloc, ListRestaurantState>(
+        // body: BlocConsumer<ListRestaurantCubit, ListRestaurantState>(
           // child: BlocConsumer<ListRestaurantBloc, ListRestaurantState>(
           listener: (context, state) {
             if (state is ListRestaurantLoading) {
