@@ -1,0 +1,42 @@
+FutureBuilder(
+                future: DataJSON().getData(),
+                builder:
+                    (context, AsyncSnapshot<ListRestaurantResponse> snapshot) {
+                  if (snapshot.data == null) {
+                    return SizedBox(
+                      height: screenUtil.screenHeight,
+                      child: SizedBox(
+                        height: screenUtil.setHeight(40),
+                        width: screenUtil.setWidth(40),
+                        child: const CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+                  return Container(
+                    margin: EdgeInsets.symmetric(
+                      horizontal: screenUtil.setWidth(10),
+                    ),
+                    child: ListView.builder(
+                      padding: EdgeInsets.only(
+                        top: screenUtil.setHeight(0),
+                      ),
+                      physics: const ScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.restaurants!.length,
+                      itemBuilder: (context, index) {
+                        return RestaurantItem(
+                          id: snapshot.data!.restaurants![index].id,
+                          name: snapshot.data!.restaurants![index].name,
+                          description:
+                              snapshot.data!.restaurants![index].description,
+                          pictureId:
+                              snapshot.data!.restaurants![index].pictureId,
+                          city: snapshot.data!.restaurants![index].city,
+                          rating: snapshot.data!.restaurants![index].rating,
+                          menus: snapshot.data!.restaurants![index].menus,
+                        );
+                      },
+                    ),
+                  );
+                },
+              );
