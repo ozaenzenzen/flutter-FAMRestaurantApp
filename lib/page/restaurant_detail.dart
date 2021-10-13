@@ -442,6 +442,22 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                   ),
                 ],
               );
+            } else if (state is DetailRestaurantError) {
+              return SizedBox(
+                height: screenUtil.screenHeight,
+                width: screenUtil.screenWidth,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: screenUtil.setHeight(40),
+                  width: screenUtil.setWidth(40),
+                  child: Text(
+                    "${state.errorMessage} \n \n Try to click search button again or check your internet connection",
+                    textAlign: TextAlign.center,
+                    style:
+                        CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+                  ),
+                ),
+              );
             }
             return SizedBox(
               height: screenUtil.screenHeight,
