@@ -27,7 +27,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
+    BlocProvider.of<ListRestaurantBloc>(context)
+        .add(ListRestaurantShowListEvent());
     return CupertinoPageScaffold(
       child: NestedScrollView(
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -72,11 +73,14 @@ class _HomePageState extends State<HomePage> {
             if (state is ListRestaurantLoading) {
               SizedBox(
                 height: screenUtil.screenHeight,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: screenUtil.setHeight(40),
-                  width: screenUtil.setWidth(40),
-                  child: const CircularProgressIndicator(),
+                width: screenUtil.screenWidth,
+                child: Center(
+                  child: Container(
+                    alignment: Alignment.center,
+                    height: screenUtil.setHeight(40),
+                    width: screenUtil.setWidth(40),
+                    child: const CircularProgressIndicator(),
+                  ),
                 ),
               );
             } else if (state is ListRestaurantError) {
@@ -99,7 +103,7 @@ class _HomePageState extends State<HomePage> {
               );
             } else if (state is ListRestaurantGetSuccess) {
               listRestaurantResponse = state.listRestaurantResponse;
-            } 
+            }
           },
           builder: (context, state) {
             if (state is ListRestaurantGetSuccess) {
@@ -157,14 +161,32 @@ class _HomePageState extends State<HomePage> {
                   },
                 ),
               );
+            } else if (state is ListRestaurantError) {
+              return SizedBox(
+                height: screenUtil.screenHeight,
+                child: Container(
+                  alignment: Alignment.center,
+                  height: screenUtil.setHeight(40),
+                  width: screenUtil.setWidth(40),
+                  child: Text(
+                    "${state.errorMessage} \n \n Try to click search button again or check your internet connection",
+                    textAlign: TextAlign.center,
+                    style:
+                        CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+                  ),
+                ),
+              );
             }
             return SizedBox(
               height: screenUtil.screenHeight,
-              child: Container(
-                alignment: Alignment.center,
-                height: screenUtil.setHeight(40),
-                width: screenUtil.setWidth(40),
-                child: const CircularProgressIndicator(),
+              width: screenUtil.screenWidth,
+              child: Center(
+                child: Container(
+                  alignment: Alignment.center,
+                  height: screenUtil.setHeight(40),
+                  width: screenUtil.setWidth(40),
+                  child: const CircularProgressIndicator(),
+                ),
               ),
             );
           },
