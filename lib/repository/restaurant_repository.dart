@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_fam_ui7/domain/detail_restaurant_response.dart';
@@ -7,7 +9,7 @@ import 'package:flutter_fam_ui7/urls/urls.dart';
 import 'package:get_storage/get_storage.dart';
 
 class RestaurantRepository {
-  Dio _dio = Dio();
+  final Dio _dio = Dio();
   final userData = GetStorage();
 
   Future getDataListRestaurant2() async {
