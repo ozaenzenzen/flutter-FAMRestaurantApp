@@ -13,10 +13,7 @@ class Urls {
 
   static const String REVIEW_RESTAURANT = BASE_API + "/review";
 
-  static const String IMAGE_SMALL =
-      "https://restaurant-api.dicoding.dev/images/small";
-  static const String IMAGE_MEDIUM =
-      "https://restaurant-api.dicoding.dev/images/medium";
-  static const String IMAGE_LARGE =
-      "https://restaurant-api.dicoding.dev/images/large";
+  static const String IMAGE_SMALL = "https://restaurant-api.dicoding.dev/images/small";
+  static const String IMAGE_MEDIUM = "https://restaurant-api.dicoding.dev/images/medium";
+  static const String IMAGE_LARGE = "https://restaurant-api.dicoding.dev/images/large";
 }
