@@ -6,8 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_fam_ui7/application/list_restaurant/bloc/list_restaurant_bloc.dart';
 import 'package:flutter_fam_ui7/domain/list_restaurant_response.dart';
 import 'package:flutter_fam_ui7/widget/list_restaurant_item.dart';
+import 'package:flutter_fam_ui7/widget/state_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -71,34 +71,13 @@ class _HomePageState extends State<HomePage> {
         body: BlocConsumer<ListRestaurantBloc, ListRestaurantState>(
           listener: (context, state) {
             if (state is ListRestaurantLoading) {
-              SizedBox(
-                height: screenUtil.screenHeight,
-                width: screenUtil.screenWidth,
-                child: Center(
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: screenUtil.setHeight(40),
-                    width: screenUtil.setWidth(40),
-                    child: const CircularProgressIndicator(),
-                  ),
-                ),
-              );
+              StateWidget.stateWidget.stateLoadingApp();
             } else if (state is ListRestaurantError) {
               showDialog(
                 context: context,
                 builder: (contextDialog) {
-                  return CupertinoAlertDialog(
-                    title: const Text("Error"),
-                    content: Text(state.errorMessage),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text("OK"),
-                      ),
-                    ],
-                  );
+                  return StateWidget.stateWidget
+                      .stateDialogErrorApp(errorMessage: state.errorMessage);
                 },
               );
             } else if (state is ListRestaurantGetSuccess) {
@@ -107,59 +86,14 @@ class _HomePageState extends State<HomePage> {
           },
           builder: (context, state) {
             if (state is ListRestaurantGetSuccess) {
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: screenUtil.setWidth(10),
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    top: screenUtil.setHeight(0),
-                  ),
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: listRestaurantResponse.restaurants!.length,
-                  itemBuilder: (context, index) {
-                    return RestaurantItem(
-                      id: listRestaurantResponse.restaurants![index].id,
-                      name: listRestaurantResponse.restaurants![index].name,
-                      description: listRestaurantResponse
-                          .restaurants![index].description,
-                      pictureId:
-                          listRestaurantResponse.restaurants![index].pictureId,
-                      city: listRestaurantResponse.restaurants![index].city,
-                      rating: listRestaurantResponse.restaurants![index].rating,
-                    );
-                  },
-                ),
+              return listRestaurantPage(
+                itemCount: state.listRestaurantResponse.restaurants!.length,
+                data: state.listRestaurantResponse,
               );
             } else if (state is ListRestaurantSearchSuccess) {
-              return Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: screenUtil.setWidth(10),
-                ),
-                child: ListView.builder(
-                  padding: EdgeInsets.only(
-                    top: screenUtil.setHeight(0),
-                  ),
-                  physics: const ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: state.searchRestaurantResponse.restaurants!.length,
-                  itemBuilder: (context, index) {
-                    return RestaurantItem(
-                      id: state.searchRestaurantResponse.restaurants![index].id,
-                      name: state
-                          .searchRestaurantResponse.restaurants![index].name,
-                      description: state.searchRestaurantResponse
-                          .restaurants![index].description,
-                      pictureId: state.searchRestaurantResponse
-                          .restaurants![index].pictureId,
-                      city: state
-                          .searchRestaurantResponse.restaurants![index].city,
-                      rating: state
-                          .searchRestaurantResponse.restaurants![index].rating,
-                    );
-                  },
-                ),
+              return listRestaurantPage(
+                itemCount: state.searchRestaurantResponse.restaurants!.length,
+                data: state.searchRestaurantResponse,
               );
             } else if (state is ListRestaurantError) {
               return SizedBox(
@@ -177,20 +111,40 @@ class _HomePageState extends State<HomePage> {
                 ),
               );
             }
-            return SizedBox(
-              height: screenUtil.screenHeight,
-              width: screenUtil.screenWidth,
-              child: Center(
-                child: Container(
-                  alignment: Alignment.center,
-                  height: screenUtil.setHeight(40),
-                  width: screenUtil.setWidth(40),
-                  child: const CircularProgressIndicator(),
-                ),
-              ),
-            );
+            return StateWidget.stateWidget.stateLoadingApp();
           },
         ),
+      ),
+    );
+  }
+
+  Widget listRestaurantPage({
+    int? itemCount,
+    dynamic data,
+    // Restaurant data,
+  }) {
+    return Container(
+      margin: EdgeInsets.symmetric(
+        horizontal: screenUtil.setWidth(10),
+      ),
+      child: ListView.builder(
+        padding: EdgeInsets.only(
+          top: screenUtil.setHeight(0),
+        ),
+        physics: const ScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: itemCount,
+        // itemCount: state.searchRestaurantResponse.restaurants!.length,
+        itemBuilder: (context, index) {
+          return RestaurantItem(
+            id: data!.restaurants![index].id,
+            name: data.restaurants![index].name,
+            description: data.restaurants![index].description,
+            pictureId: data.restaurants![index].pictureId,
+            city: data.restaurants![index].city,
+            rating: data.restaurants![index].rating,
+          );
+        },
       ),
     );
   }
