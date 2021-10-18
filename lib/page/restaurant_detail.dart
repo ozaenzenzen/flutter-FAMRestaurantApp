@@ -5,6 +5,7 @@ import 'package:flutter_fam_ui7/application/detail_restaurant/bloc/detail_restau
 import 'package:flutter_fam_ui7/domain/detail_restaurant_response.dart';
 import 'package:flutter_fam_ui7/page/fooddrink_detail.dart';
 import 'package:flutter_fam_ui7/urls/urls.dart';
+import 'package:flutter_fam_ui7/widget/state_widget.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -34,6 +35,8 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
   double? rating;
   List<CustomerReview>? customerReviews;
 
+  Restaurant? dataDetail;
+
   @override
   Widget build(BuildContext context) {
     id = data['id'];
@@ -59,46 +62,30 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
         child: BlocConsumer<DetailRestaurantBloc, DetailRestaurantState>(
           listener: (context, state) {
             if (state is DetailRestaurantLoading) {
-              SizedBox(
-                height: screenUtil.screenHeight,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: screenUtil.setHeight(40),
-                  width: screenUtil.setWidth(40),
-                  child: const CircularProgressIndicator(),
-                ),
-              );
+              StateWidget.stateWidget.stateLoadingApp();
             } else if (state is DetailRestaurantError) {
               showDialog(
                 context: context,
                 builder: (contextDialog) {
-                  return CupertinoAlertDialog(
-                    title: const Text("Error"),
-                    content: Text(state.errorMessage),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Get.back();
-                        },
-                        child: const Text("OK"),
-                      ),
-                    ],
-                  );
+                  return StateWidget.stateWidget
+                      .stateDialogErrorApp(errorMessage: state.errorMessage);
                 },
               );
             } else if (state is DetailRestaurantGetSuccess) {
               detailRestaurantResponse = state.detailRestaurantResponse;
-              id = detailRestaurantResponse.restaurant!.id;
-              name = detailRestaurantResponse.restaurant!.name;
-              description = detailRestaurantResponse.restaurant!.description;
-              city = detailRestaurantResponse.restaurant!.city;
-              address = detailRestaurantResponse.restaurant!.address;
-              pictureId = detailRestaurantResponse.restaurant!.pictureId;
-              categories = detailRestaurantResponse.restaurant!.categories;
-              menus = detailRestaurantResponse.restaurant!.menus;
-              rating = detailRestaurantResponse.restaurant!.rating;
-              customerReviews =
-                  detailRestaurantResponse.restaurant!.customerReviews;
+              dataDetail = Restaurant(
+                id: detailRestaurantResponse.restaurant!.id,
+                name: detailRestaurantResponse.restaurant!.name,
+                description: detailRestaurantResponse.restaurant!.description,
+                city: detailRestaurantResponse.restaurant!.city,
+                address: detailRestaurantResponse.restaurant!.address,
+                pictureId: detailRestaurantResponse.restaurant!.pictureId,
+                categories: detailRestaurantResponse.restaurant!.categories,
+                menus: detailRestaurantResponse.restaurant!.menus,
+                rating: detailRestaurantResponse.restaurant!.rating,
+                customerReviews:
+                    detailRestaurantResponse.restaurant!.customerReviews,
+              );
             }
           },
           builder: (context, state) {
@@ -112,7 +99,8 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                     expandedHeight: 200.0,
                     flexibleSpace: FlexibleSpaceBar(
                       background: Image.network(
-                        Urls.IMAGE_MEDIUM + "/${pictureId.toString()}",
+                        Urls.IMAGE_MEDIUM +
+                            "/${dataDetail!.pictureId.toString()}",
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -143,7 +131,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      name.toString(),
+                                      dataDetail!.name.toString(),
                                       style: CupertinoTheme.of(context)
                                           .textTheme
                                           .navLargeTitleTextStyle,
@@ -155,57 +143,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                       showDialog(
                                         context: context,
                                         builder: (contextDialogs) {
-                                          // return AlertDialog(
-                                          return CupertinoAlertDialog(
-                                            title: const Text("Review"),
-                                            // content: Expanded(
-                                            content: SizedBox(
-                                              height: screenUtil.setHeight(200),
-                                              width: screenUtil.setWidth(200),
-                                              child: Material(
-                                                color: Colors.transparent,
-                                                child: ListView.builder(
-                                                  shrinkWrap: true,
-                                                  itemCount:
-                                                      customerReviews!.length,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return ListTile(
-                                                      title: Text(
-                                                          "Review ${index + 1}"),
-                                                      subtitle: Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(customerReviews![
-                                                                  index]
-                                                              .name
-                                                              .toString()),
-                                                          Text(customerReviews![
-                                                                  index]
-                                                              .date
-                                                              .toString()),
-                                                          Text(customerReviews![
-                                                                  index]
-                                                              .review
-                                                              .toString()),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            actions: [
-                                              CupertinoButton(
-                                                child: const Text("OK"),
-                                                onPressed: () {
-                                                  Get.back();
-                                                },
-                                              )
-                                            ],
-                                          );
+                                          return reviewAlertDialog(dataDetail: dataDetail);
                                         },
                                       );
                                     },
@@ -226,7 +164,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                   ),
                                   Expanded(
                                     child: Text(
-                                      "$address, $city",
+                                      "${dataDetail!.address}, ${dataDetail!.city}",
                                       style: CupertinoTheme.of(context)
                                           .textTheme
                                           .actionTextStyle,
@@ -248,7 +186,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                     width: screenUtil.setWidth(5),
                                   ),
                                   Text(
-                                    "$rating",
+                                    "${dataDetail!.rating}",
                                     style: CupertinoTheme.of(context)
                                         .textTheme
                                         .navTitleTextStyle,
@@ -259,7 +197,7 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                                 height: screenUtil.setHeight(15),
                               ),
                               Text(
-                                description.toString(),
+                                dataDetail!.description.toString(),
                                 style: CupertinoTheme.of(context)
                                     .textTheme
                                     .textStyle,
@@ -287,152 +225,16 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => const FoodDrinkPage(),
-                                      arguments: {
-                                        'type': 'foods',
-                                        'id': id,
-                                        'name': name,
-                                        'description': description,
-                                        'city': city,
-                                        'address': address,
-                                        'pictureId': pictureId,
-                                        'categories': categories,
-                                        'menus': menus,
-                                        'rating': rating,
-                                        'customerReviews': customerReviews,
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    height: screenUtil.setHeight(150),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          offset: Offset(0, 3),
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                          color: CupertinoColors
-                                              .lightBackgroundGray,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            topRight: Radius.circular(8),
-                                          ),
-                                          child: Image(
-                                            width: screenUtil.screenWidth,
-                                            height: screenUtil.setHeight(100),
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              Urls.IMAGE_MEDIUM +
-                                                  "/${pictureId.toString()}",
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: screenUtil.setHeight(10),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Foods",
-                                            style: CupertinoTheme.of(context)
-                                                .textTheme
-                                                .navTitleTextStyle,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                              foodDrinkContainerPage(
+                                type: "foods",
+                                restaurantData: dataDetail,
                               ),
                               SizedBox(
                                 width: screenUtil.setWidth(10),
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Get.to(
-                                      () => const FoodDrinkPage(),
-                                      arguments: {
-                                        'type': 'drinks',
-                                        'id': id,
-                                        'name': name,
-                                        'description': description,
-                                        'city': city,
-                                        'address': address,
-                                        'pictureId': pictureId,
-                                        'categories': categories,
-                                        'menus': menus,
-                                        'rating': rating,
-                                        'customerReviews': customerReviews,
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    height: screenUtil.setHeight(150),
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(8),
-                                      boxShadow: const [
-                                        BoxShadow(
-                                          offset: Offset(0, 3),
-                                          spreadRadius: 1,
-                                          blurRadius: 5,
-                                          color: CupertinoColors
-                                              .lightBackgroundGray,
-                                        ),
-                                      ],
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(8),
-                                            topRight: Radius.circular(8),
-                                          ),
-                                          child: Image(
-                                            width: screenUtil.screenWidth,
-                                            height: screenUtil.setHeight(100),
-                                            fit: BoxFit.cover,
-                                            image: NetworkImage(
-                                              Urls.IMAGE_MEDIUM +
-                                                  "/${pictureId.toString()}",
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: screenUtil.setHeight(10),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            "Drinks",
-                                            style: CupertinoTheme.of(context)
-                                                .textTheme
-                                                .navTitleTextStyle,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                              foodDrinkContainerPage(
+                                type: "drinks",
+                                restaurantData: dataDetail,
                               ),
                             ],
                           ),
@@ -443,32 +245,129 @@ class _RestaurantDetailState extends State<RestaurantDetail> {
                 ],
               );
             } else if (state is DetailRestaurantError) {
-              return SizedBox(
-                height: screenUtil.screenHeight,
-                width: screenUtil.screenWidth,
-                child: Container(
-                  alignment: Alignment.center,
-                  height: screenUtil.setHeight(40),
-                  width: screenUtil.setWidth(40),
-                  child: Text(
+              return StateWidget.stateWidget.statePageErrorApp(
+                errorMessage:
                     "${state.errorMessage} \n \n Try to click search button again or check your internet connection",
-                    textAlign: TextAlign.center,
-                    style:
-                        CupertinoTheme.of(context).textTheme.navTitleTextStyle,
-                  ),
-                ),
+                context: context,
               );
             }
-            return SizedBox(
-              height: screenUtil.screenHeight,
-              child: Container(
-                alignment: Alignment.center,
-                height: screenUtil.setHeight(40),
-                width: screenUtil.setWidth(40),
-                child: const CircularProgressIndicator(),
-              ),
-            );
+            return StateWidget.stateWidget.stateLoadingApp();
           },
+        ),
+      ),
+    );
+  }
+
+  Widget reviewAlertDialog({
+    Restaurant? dataDetail,
+  }) {
+    return CupertinoAlertDialog(
+      title: const Text("Review"),
+      // content: Expanded(
+      content: SizedBox(
+        height: screenUtil.setHeight(200),
+        width: screenUtil.setWidth(200),
+        child: Material(
+          color: Colors.transparent,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: dataDetail!.customerReviews!.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text("Review ${index + 1}"),
+                subtitle: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(dataDetail.customerReviews![index].name.toString()),
+                    Text(dataDetail.customerReviews![index].date.toString()),
+                    Text(dataDetail.customerReviews![index].review.toString()),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+      actions: [
+        CupertinoButton(
+          child: const Text("OK"),
+          onPressed: () {
+            Get.back();
+          },
+        )
+      ],
+    );
+  }
+
+  Widget foodDrinkContainerPage({
+    String? type,
+    Restaurant? restaurantData,
+  }) {
+    return Expanded(
+      flex: 1,
+      child: GestureDetector(
+        onTap: () {
+          Get.to(
+            () => const FoodDrinkPage(),
+            arguments: {
+              'type': type,
+              'id': restaurantData!.id,
+              'name': restaurantData.name,
+              'description': restaurantData.description,
+              'city': restaurantData.city,
+              'address': restaurantData.address,
+              'pictureId': restaurantData.pictureId,
+              'categories': restaurantData.categories,
+              'menus': restaurantData.menus,
+              'rating': restaurantData.rating,
+              'customerReviews': restaurantData.customerReviews,
+            },
+          );
+        },
+        child: Container(
+          height: screenUtil.setHeight(150),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8),
+            boxShadow: const [
+              BoxShadow(
+                offset: Offset(0, 3),
+                spreadRadius: 1,
+                blurRadius: 5,
+                color: CupertinoColors.lightBackgroundGray,
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(8),
+                ),
+                child: Image(
+                  width: screenUtil.screenWidth,
+                  height: screenUtil.setHeight(100),
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    Urls.IMAGE_MEDIUM +
+                        "/${restaurantData!.pictureId.toString()}",
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: screenUtil.setHeight(10),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  type.toString(),
+                  style: CupertinoTheme.of(context).textTheme.navTitleTextStyle,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
