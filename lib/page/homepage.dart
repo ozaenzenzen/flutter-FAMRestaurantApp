@@ -39,7 +39,14 @@ class _HomePageState extends State<HomePage> {
                 padding: EdgeInsets.only(
                   top: screenUtil.setHeight(5),
                 ),
+                height: screenUtil.setHeight(30),
                 child: CupertinoSearchTextField(
+                  placeholder: "Search",
+                  placeholderStyle: TextStyle(
+                    letterSpacing: 0.5,
+                    color: Colors.black38,
+                    fontSize: screenUtil.setSp(13),
+                  ),
                   controller: searchController,
                   prefixIcon: Container(),
                   onSubmitted: (String search) {
@@ -48,8 +55,7 @@ class _HomePageState extends State<HomePage> {
                         .add(ListRestaurantSearchListEvent(search));
                   },
                   onSuffixTap: () {
-                    BlocProvider.of<ListRestaurantBloc>(context)
-                        .add(ListRestaurantShowListEvent());
+                    BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
                     searchController.clear();
                   },
                 ),
@@ -61,8 +67,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 onPressed: () {
                   FocusScope.of(context).unfocus();
-                  BlocProvider.of<ListRestaurantBloc>(context).add(
-                      ListRestaurantSearchListEvent(searchController.text));
+                  // BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantSearchListEvent(searchController.text));
+                  BlocProvider.of<ListRestaurantBloc>(context).add(ListRestaurantShowListEvent());
                 },
               ),
             ),
